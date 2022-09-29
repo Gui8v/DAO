@@ -1,23 +1,28 @@
 package model.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Role implements Serializable {
+public class Employee implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
 	private String name;
-	private String description;
-		
-	public Role() {
+	private String cpf;
+	
+	private List<Role> roles = new ArrayList<>();
 
+	public Employee() {
+		
 	}
 	
-	public Role(Integer id, String name, String description) {
+	public Employee(Integer id, String name, String cpf, List<Role> roles) {
 		this.id = id;
 		this.name = name;
-		this.description = description;
+		this.cpf = cpf;
+		this.roles = roles;
 	}
 
 	public Integer getId() {
@@ -36,12 +41,24 @@ public class Role implements Serializable {
 		this.name = name;
 	}
 
-	public String getDescription() {
-		return description;
+	public String getCpf() {
+		return cpf;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public List<Role> getRoles() {
+		return roles;
+	}
+	
+	public void addRole(Role role) {
+		roles.add(role);
+	}
+	
+	public void removeRole(Role role) {
+		roles.remove(role);
 	}
 
 	@Override
@@ -60,7 +77,7 @@ public class Role implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Role other = (Role) obj;
+		Employee other = (Employee) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -71,8 +88,7 @@ public class Role implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Role [id=" + id + ", name=" + name + "]";
+		return "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf + "]";
 	}
-	
-	
+		
 }
