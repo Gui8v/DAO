@@ -1,11 +1,18 @@
 package model.dao.impl;
 
+import java.sql.Connection;
 import java.util.List;
 
 import model.dao.RoleDao;
 import model.entities.Role;
 
 public class RoleDaoJdbc implements RoleDao{
+	
+	private Connection conn = null;
+	
+	public RoleDaoJdbc(Connection conn) {
+		this.conn = conn;
+	}
 
 	@Override
 	public void insert(Role role) {

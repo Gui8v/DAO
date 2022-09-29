@@ -16,6 +16,10 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 
 	private Connection conn = null;
 	
+	public EmployeeDaoJdbc(Connection conn) {
+		this.conn = conn;
+	}
+	
 	@Override
 	public void insert(Employee employee) {
 		// TODO Auto-generated method stub
@@ -41,31 +45,32 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 		
 		try {
 			st = conn.prepareStatement(
-					  "select f.fun_id, fun_nome, fun_cpf, c.car_id, car_nome"
+					  "select f.fun_id, fun_nome, fun_cpf, c.car_id, car_nome "
 					+ "from funcionarios f "
 					+ "inner join cargosfuncionarios cf "
 					+ "on f.fun_id = cf.fun_id "
 					+ "inner join cargos c "
-					+ "on cf.car_id = c.car_id"
+					+ "on cf.car_id = c.car_id "
 					+ "where f.fun_id = ?");
 			
 			st.setInt(1, id);
 			rs = st.executeQuery();
 			
 			if(rs.next()) {
+				
 				Employee emp = new Employee();
 				
 				emp.setId(rs.getInt("fun_id"));
 				emp.setName(rs.getString("fun_nome"));
 				emp.setCpf(rs.getString("fun_cpf"));
 				
-				while(rs.next()) {
+				do{
 					Role rol = new Role();
 					rol.setId(rs.getInt("car_id"));
 					rol.setName(rs.getString("car_nome"));
 					
 					emp.addRole(rol);
-				}
+				} while(rs.next());
 				
 				return emp;
 			}

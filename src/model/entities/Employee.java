@@ -88,7 +88,11 @@ public class Employee implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf + "]";
+		String data = "Employee [id=" + id + ", name=" + name + ", cpf=" + cpf + "] \nRole: ";
+		for(Role role: roles) {
+			data += "\n" + role;
+		}
+		return data;
 	}
 		
 }
