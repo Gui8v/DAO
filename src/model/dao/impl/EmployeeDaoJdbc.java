@@ -75,6 +75,77 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 		
 	}
 
+	@Override
+	public List<Employee> findByRole(Role role) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"select f.fun_id, fun_nome, fun_cpf, c.car_id, car_nome "
+				  + "from funcionarios f "
+				  + "inner join cargosfuncionarios cf "
+				  + "on f.fun_id = cf.fun_id "
+				  + "inner join cargos c "
+				  + "on cf.car_id = c.car_id "
+				  + "where c.car_id = ?");
+			
+			st.setInt(1, role.getId());
+			rs = st.executeQuery();
+			
+			List<Employee> list = new ArrayList<>(); 
+			
+			while(rs.next()) {
+
+				list.add(instantiateEmployee(rs));
+	
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally{
+			DB.closeStatemant(st);
+			DB.closeResultSet(rs);
+		}
+	}
+	
+	@Override
+	public List<Employee> findAll() {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					"select f.fun_id, fun_nome, fun_cpf, c.car_id, car_nome "
+				  + "from funcionarios f "
+				  + "inner join cargosfuncionarios cf "
+				  + "on f.fun_id = cf.fun_id "
+				  + "inner join cargos c "
+				  + "on cf.car_id = c.car_id ");
+			
+			
+			rs = st.executeQuery();
+			
+			List<Employee> list = new ArrayList<>(); 
+			
+			while(rs.next()) {
+
+				list.add(instantiateEmployee(rs));
+	
+			}
+			return list;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally{
+			DB.closeStatemant(st);
+			DB.closeResultSet(rs);
+		}
+	}
+ 	
 	private Employee instantiateEmployeeWithRoles(ResultSet rs) throws SQLException {
 		
 		Employee emp = new Employee();
@@ -111,47 +182,7 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 		return emp;
 	}
 
-	@Override
-	public List<Employee> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	
-	@Override
-	public List<Employee> findByRole(Role role) {
-		PreparedStatement st = null;
-		ResultSet rs = null;
-		
-		try {
-			st = conn.prepareStatement(
-					"select f.fun_id, fun_nome, fun_cpf, c.car_id, car_nome "
-				  + "from funcionarios f "
-				  + "inner join cargosfuncionarios cf "
-				  + "on f.fun_id = cf.fun_id "
-				  + "inner join cargos c "
-				  + "on cf.car_id = c.car_id "
-				  + "where c.car_id = ?");
-			
-			st.setInt(1, role.getId());
-			rs = st.executeQuery();
-			
-			List<Employee> list = new ArrayList<>(); 
-			
-			while(rs.next()) {
 
-				list.add(instantiateEmployee(rs));
-	
-			}
-			return list;
-		}
-		catch (SQLException e) {
-			throw new DbException(e.getMessage());
-		}
-		finally{
-			DB.closeStatemant(st);
-			DB.closeResultSet(rs);
-		}
-	}
 
 }
