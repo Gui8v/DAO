@@ -62,7 +62,27 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 
 	@Override
 	public void update(Employee employee) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement(
+					"update funcionarios "
+				  + "set fun_nome = ?, fun_cpf = ? "
+				  + "where fun_id = ?"
+				  , Statement.RETURN_GENERATED_KEYS );
+			
+			ps.setString(1, employee.getName());
+			ps.setString(2, employee.getCpf());
+			ps.setInt(3, employee.getId());
+			
+		    ps.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			DB.closeStatemant(ps);
+		}
 		
 	}
 
@@ -74,6 +94,38 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 
 	@Override
 	public Employee findById(Integer id) {
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement(
+					  "select * "
+					+ "from funcionarios "
+					+ "where fun_id = ?");
+			
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			
+			if(rs.next()) {
+				
+				Employee emp = instantiateEmployeeWithoutRoles(rs);
+
+				return emp;
+			}
+			return null;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally{
+			DB.closeStatemant(st);
+			DB.closeResultSet(rs);
+		}
+		
+	}
+	
+	@Override
+	public Employee findByIdWithRoles(Integer id) {
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		
@@ -210,12 +262,22 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 		rol.setId(rs.getInt("car_id"));
 		rol.setName(rs.getString("car_nome"));
 			
-			emp.addRole(rol);
+		emp.addRole(rol);
 		
 		return emp;
 	}
 
 	
+	private Employee instantiateEmployeeWithoutRoles(ResultSet rs) throws SQLException {
+		
+		Employee emp = new Employee();
+		
+		emp.setId(rs.getInt("fun_id"));
+		emp.setName(rs.getString("fun_nome"));
+		emp.setCpf(rs.getString("fun_cpf"));
+		
+		return emp;
+	}
 
 
 }

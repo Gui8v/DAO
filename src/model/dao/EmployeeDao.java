@@ -12,6 +12,7 @@ public interface EmployeeDao {
 	void update(Employee employee);
 	void deleteById(Integer id);
 	Employee findById(Integer id);
+	Employee findByIdWithRoles(Integer id);
 	List<Employee> findByRole(Role role);
 	List<Employee> findAll();
 }

@@ -14,8 +14,8 @@ public class Program {
 		
 		EmployeeDao employeeDao = DaoFactory.createEmployeeDao();	
 		
-		System.out.println("-------------- Test 01: FindById ----------------");
-		Employee emp = employeeDao.findById(1);
+		System.out.println("-------------- Test 01: FindByIdWithRoles ----------------");
+		Employee emp = employeeDao.findByIdWithRoles(1);
 		System.out.println(emp);
 		
 		System.out.println("\n-------------- Test 02: FindByRole ------------");
@@ -37,10 +37,14 @@ public class Program {
 	    System.out.println("\n------------ Test 04: Insert Employee ---------");
 	    Employee empInsert = new Employee(null, "Ribamar", "145788-123-12", null);
 	    
-	    employeeDao.insert(empInsert);
-	    System.out.println("Id: " + empInsert.getId());
+	    //employeeDao.insert(empInsert);
+	    //System.out.println("Id: " + empInsert.getId());
 	    
-	    
+	    System.out.println("\n------------ Test 05: Update Employee ---------");
+	    //Employee empUpdate = new Employee();
+	    //empUpdate = employeeDao.findById(10);
+	    //empUpdate.setName("ribamar");
+	    //employeeDao.update(empUpdate);
 	}
 
 }
