@@ -33,6 +33,14 @@ public class Program {
 	    for(Employee employee : list) {
 			System.out.println(employee);
 		}
+	    
+	    System.out.println("\n------------ Test 04: Insert Employee ---------");
+	    Employee empInsert = new Employee(null, "Ribamar", "145788-123-12", null);
+	    
+	    employeeDao.insert(empInsert);
+	    System.out.println("Id: " + empInsert.getId());
+	    
+	    
 	}
 
 }

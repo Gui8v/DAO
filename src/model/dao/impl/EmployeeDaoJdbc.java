@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,39 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 	
 	@Override
 	public void insert(Employee employee) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement(
+					"insert into funcionarios "
+				  + "(fun_nome, fun_cpf) "
+				  + "values(?, ?)"
+				  , Statement.RETURN_GENERATED_KEYS );
+			
+			ps.setString(1, employee.getName());
+			ps.setString(2, employee.getCpf());
+			
+			int rowsAffected = ps.executeUpdate();
+			
+			if(rowsAffected > 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				
+				if(rs.next()) {
+					int id = rs.getInt(1);
+					employee.setId(id);
+				}
+
+				DB.closeResultSet(rs);
+			}
+			else {
+				throw new DbException("Unexpected Error ! no rows affcted");
+			}
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}finally {
+			DB.closeStatemant(ps);
+		}
 		
 	}
 
