@@ -45,6 +45,10 @@ public class Program {
 	    //empUpdate = employeeDao.findById(10);
 	    //empUpdate.setName("ribamar");
 	    //employeeDao.update(empUpdate);
+	    
+	    System.out.println("\n------------ Test 05: Delete Employee ---------");
+	    //Integer id = null;
+	    //employeeDao.deleteById(id); 
 	}
 
 }

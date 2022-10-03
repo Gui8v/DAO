@@ -88,7 +88,22 @@ public class EmployeeDaoJdbc implements EmployeeDao{
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		PreparedStatement ps = null;
+		
+		try {
+			ps = conn.prepareStatement("delete from funcionarios where fun_id = ?");
+			
+			ps.setInt(1, id);
+			
+		    ps.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			
+		}finally {
+			DB.closeStatemant(ps);
+		}
 		
 	}
 
