@@ -5,6 +5,7 @@ import java.util.List;
 
 import model.dao.DaoFactory;
 import model.dao.EmployeeDao;
+import model.dao.RoleDao;
 import model.entities.Employee;
 import model.entities.Role;
 
@@ -13,6 +14,7 @@ public class Program {
 	public static void main(String[] args) {
 		
 		EmployeeDao employeeDao = DaoFactory.createEmployeeDao();	
+		RoleDao roleDao = DaoFactory.createRoleDao();	
 		
 		System.out.println("-------------- Test 01: FindByIdWithRoles ----------------");
 		Employee emp = employeeDao.findByIdWithRoles(1);
@@ -49,6 +51,17 @@ public class Program {
 	    System.out.println("\n------------ Test 05: Delete Employee ---------");
 	    //Integer id = null;
 	    //employeeDao.deleteById(id); 
+	    
+	    System.out.println("\n------------ Test 06: FindAll Roles ---------");
+	    List<Role> rolelist = new ArrayList<>();
+	    
+	    rolelist = roleDao.findAll();
+	    
+	    for(Role rol : rolelist) {
+			System.out.println(rol);
+		}
+	    
+	    
 	}
 
 }
