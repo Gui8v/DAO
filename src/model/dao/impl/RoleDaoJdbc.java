@@ -40,8 +40,31 @@ public class RoleDaoJdbc implements RoleDao{
 
 	@Override
 	public Role findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement st = null;
+		ResultSet rs = null;
+		
+		try {
+			st = conn.prepareStatement("select * from cargos where car_id = ?");
+			
+			st.setInt(1, id);
+			rs = st.executeQuery();
+			
+			Role role = new Role(); 
+			
+			if(rs.next()) {
+
+				 role = instantiateRole(rs); 
+	
+			}
+			return role;
+		}
+		catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally{
+			DB.closeStatemant(st);
+			DB.closeResultSet(rs);
+		}
 	}
 
 	@Override

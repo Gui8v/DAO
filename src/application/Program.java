@@ -61,6 +61,13 @@ public class Program {
 			System.out.println(rol);
 		}
 	    
+	    System.out.println("\n------------ Test 07: FindById Roles ---------");
+	    Role findRole = new Role();
+	    
+	    findRole = roleDao.findById(1);
+
+		System.out.println(findRole);
+
 	    
 	}
 
