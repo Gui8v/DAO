@@ -1,2 +1,2 @@
 # DAO
-Neste projeto me intoduzo a forma de organização de projeto DAO
+Neste projeto me introduzo ao modelo de organização de projeto DAO.
